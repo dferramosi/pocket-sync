@@ -18,10 +18,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - name: install Rust stable
+
+      - name: install Rust stable (mac only)
+        if: matrix.platform == 'macos-latest'
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          target: aarch64-apple-darwin
+
+      - name: install Rust stable (not mac)
+        if: matrix.platform != 'macos-latest'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
       - name: install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
